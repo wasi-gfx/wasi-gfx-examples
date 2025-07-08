@@ -1,0 +1,8 @@
+package org:ns;
+
+world my-world {
+    include wasi:cli/command@0.2.0;
+    include wasi:webgpu/imports@0.0.1;
+    include wasi:surface/imports@0.0.1;
+    include wasi:graphics-context/imports@0.0.1;
+}
