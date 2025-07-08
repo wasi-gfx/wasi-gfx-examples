@@ -1,5 +1,5 @@
 [package]
-name = "basic_triangle"
+name = "basic_triangle_rust"
 version = "0.1.0"
 edition = "2021"
 
