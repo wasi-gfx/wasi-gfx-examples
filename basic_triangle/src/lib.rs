@@ -105,7 +105,7 @@ fn draw_triangle() {
                 .to_string(),
             ),
             targets: vec![Some(webgpu::GpuColorTargetState {
-                format: webgpu::GpuTextureFormat::Bgra8unormSrgb,
+                format: gpu.get_preferred_canvas_format(),
                 blend: None,
                 write_mask: None,
             })],
