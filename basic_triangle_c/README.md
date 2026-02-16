@@ -15,10 +15,12 @@ wit-bindgen c wit
 ### Compile the Example
 
 ```shell
-[WASI_SDK_PATH]/bin/clang main.c my_world.c my_world_component_type.o -o main.wasm  -mexec-model=reactor
+[WASI_SDK_PATH]/bin/clang main.c my_world.c my_world_component_type.o -o main.module.wasm  -mexec-model=reactor
 ```
 
 Convert to wasm component
 ```shell
-wasm-tools component new ./main.wasm -o main.component.wasm
+wasm-tools component new ./main.module.wasm -o main.component.wasm
 ```
+
+Now run `main.component.wasm` with a wasm runtime that supports wasi-gfx.
