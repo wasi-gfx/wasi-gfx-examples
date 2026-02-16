@@ -42,10 +42,11 @@ void print(const char *message) {
 
 
 void draw_triangle() {
-    wasi_webgpu_webgpu_own_gpu_t gpu = wasi_webgpu_webgpu_get_gpu();
+    wasi_webgpu_webgpu_own_gpu_t gpu_owned = wasi_webgpu_webgpu_get_gpu();
+    wasi_webgpu_webgpu_borrow_gpu_t gpu = wasi_webgpu_webgpu_borrow_gpu(gpu_owned);
     
     wasi_webgpu_webgpu_own_gpu_adapter_t adapter;
-    wasi_webgpu_webgpu_method_gpu_request_adapter(wasi_webgpu_webgpu_borrow_gpu(gpu), NULL, &adapter);
+    wasi_webgpu_webgpu_method_gpu_request_adapter(gpu, NULL, &adapter);
 
     wasi_webgpu_webgpu_own_gpu_device_t device_owned;
     wasi_webgpu_webgpu_method_gpu_adapter_request_device(wasi_webgpu_webgpu_borrow_gpu_adapter(adapter), NULL, &device_owned, NULL);
@@ -120,6 +121,9 @@ void draw_triangle() {
         } else {
             my_world_string_set(&fragment_entry_point, "fs_green");
         }
+
+        wasi_webgpu_webgpu_gpu_texture_format_t preferred_format = wasi_webgpu_webgpu_method_gpu_get_preferred_canvas_format(gpu);
+
         wasi_webgpu_webgpu_gpu_fragment_state_t fragment = {
             .module = wasi_webgpu_webgpu_borrow_gpu_shader_module(module),
             .entry_point = {
@@ -130,7 +134,7 @@ void draw_triangle() {
                 .ptr = &(wasi_webgpu_webgpu_option_gpu_color_target_state_t) {
                     .is_some = true,
                     .val = (wasi_webgpu_webgpu_gpu_color_target_state_t) {
-                        .format = WASI_WEBGPU_WEBGPU_GPU_TEXTURE_FORMAT_BGRA8UNORM_SRGB,
+                        .format = preferred_format,
                         .blend = NULL,
                         .write_mask = NULL
                     }
